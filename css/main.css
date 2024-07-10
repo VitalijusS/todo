@@ -54,7 +54,7 @@ form>button {
 .list .diviter{
     font-size: 2rem;
 }
- .empty{
+.list.empty{
     border: 0.2rem solid #ccc;
     padding: 2rem;
     text-align: center;
