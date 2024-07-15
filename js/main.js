@@ -6,6 +6,7 @@ const listDOM = document.querySelectorAll('.list')[1];
 const emptyDOM = document.querySelector('.empty');
 let listIndex = 0;
 
+const todoData = [];
 
 submitButtonDOM.addEventListener('click', event => {
     event.preventDefault();
@@ -60,3 +61,39 @@ function buttonDelete() {
         })
     }
 }
+
+
+// submitButtonDOM.addEventListener('click', event => {
+//     event.preventDefault();
+//     if (textImputDOM.value.length === 0) {
+//         return;
+//     }
+//     todoData.push(textImputDOM.value);
+//     renderList();
+// });
+// function renderList() {
+//     if (todoData.length === 0) {
+//         renderEmptyList();
+//     } else {
+//         renderTaskList();
+//     }
+// }
+// function renderEmptyList() {
+//     listDOM.textContent = "Empty";
+// }
+// function renderTaskList() {
+//     for (const todo of todoData) {
+//         HTML += `
+//         <article class="item">
+//                 <div class="text">${todo}</div>
+//                 <div class="action">
+//                     <button>Done</button>
+//                     <div class="diviter">|</div>
+//                     <button>Edit</button>
+//                     <button>Delete</button>
+//                 </div>
+//             </article>
+//         `
+//     }
+//     listDOM.innerHTML = HTML;
+// }
