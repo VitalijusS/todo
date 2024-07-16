@@ -6,8 +6,15 @@ const toastDOM = document.querySelector('.toast');
 const toastTitle = toastDOM.querySelector('.title')
 const toastText = toastDOM.querySelector('.text')
 const toastClose = toastDOM.querySelector('.close')
-const todoData = [];
 
+
+let todoData = [];
+const localData = localStorage.getItem('tasks');
+console.log(localData)
+if (localData !== null) {
+    todoData = JSON.parse(localData);
+    renderTaskList();
+}
 toastClose.addEventListener('click', () => {
     toastDOM.classList.remove('active')
 })
@@ -16,14 +23,15 @@ submitButtonDOM.addEventListener('click', event => {
     event.preventDefault();
     const validationText = isValidText(textInputDOM.value);
     if (validationText !== true) {
-        showToastError(validationText)
+        showToastError(validationText);
     } else {
         todoData.push({
             text: textInputDOM.value.trim(),
             createdOn: Date.now(),
         });
+        localStorage.setItem('tasks', JSON.stringify(todoData));
         renderList();
-        showToastSuccess('Task was created')
+        showToastSuccess('Task was created');
     }
 });
 
