@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo</title>
+    <title>Todo new</title>
     <link rel="stylesheet" href="./css/main.css">
 </head>
 
@@ -20,8 +20,8 @@
 
         <section class="empty list">Empty</section>
 
-        <section class="list">
-            <!-- <article class="item">
+
+        <!-- <article class="item">
                 <div class="text">Text</div>
                 <div class="action">
                     <button>Done</button>
@@ -69,8 +69,33 @@
 
         </section> -->
 
-            <script type="module" src="./js/main.js"></script>
+        <script type="module" src="./js/main.js"></script>
     </main>
+
+    <div id="toast" class="toast hidden" data-state="success">
+        <div class="icon">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="40px" width="40px" xmlns="http://www.w3.org/2000/svg">
+                <path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
+            </svg>
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 192 512" height="40px" width="40px" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+            </svg>
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="40px" width="40px" xmlns="http://www.w3.org/2000/svg">
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+            </svg>
+        </div>
+        <div class="texts">
+            <p class="title">Message type</p>
+            <p class="text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi rem totam pariatur eligendi ex, blanditiis saepe? Voluptas non ullam labore.</p>
+        </div>
+        <div class="close">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="40px" width="40px" xmlns="http://www.w3.org/2000/svg">
+                <path d="m289.94 256 95-95A24 24 0 0 0 351 127l-95 95-95-95a24 24 0 0 0-34 34l95 95-95 95a24 24 0 1 0 34 34l95-95 95 95a24 24 0 0 0 34-34z"></path>
+            </svg>
+        </div>
+    </div>
+
 </body>
 
 </html>

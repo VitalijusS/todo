@@ -1,38 +1,46 @@
-body, body * {
+body,
+body * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 
 }
-main{
+
+main {
     display: flex;
     gap: 2rem;
     flex-direction: column;
 }
-body{
+
+body {
     padding: 2rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
-form{
+
+form {
     display: flex;
     flex-direction: column;
 }
-form > input{
+
+form>input {
     font-size: 2rem;
     padding: 0.3em 0.5em;
 }
+
 form>button {
     font-size: 2rem;
     padding: 0.3em 0.5em;
 }
-.list{
+
+.list {
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
-.list > .item{
+
+.list>.item {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -48,17 +56,84 @@ form>button {
     display: flex;
     gap: 1rem;
 }
+
 .list .action button {
     padding: 0.4rem 0.7rem;
 }
-.list .diviter{
+
+.list .diviter {
     font-size: 2rem;
 }
-.list.empty{
+
+.list.empty {
     border: 0.2rem solid #ccc;
     padding: 2rem;
     text-align: center;
     font-style: italic;
     font-size: 2rem;
     color: #ccc;
+}
+
+.hidden {
+    display: none;
+}
+
+.toast {
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0.1rem 0.2rem;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 24rem;
+    display: none;
+}
+
+.toast.active {
+    display: flex;
+}
+
+.toast .icon {
+    padding: 1rem;
+}
+
+.toast .texts {
+    padding: 1rem;
+}
+
+.toast .texts .title {
+    font-weight: bold;
+}
+
+.toast .close {
+    padding: 1rem;
+
+}
+
+.toast .icon svg {
+    display: none;
+}
+
+.toast[data-state="success"]>.icon svg:nth-child(1),
+.toast[data-state="info"] .icon svg:nth-child(2),
+.toast[data-state="error"] .icon svg:nth-child(3) {
+    display: block;
+}
+
+.toast[data-state=""]>.icon {
+    display: none;
+}
+
+.toast[data-state="success"]>.texts .title {
+    color: green;
+}
+
+.toast[data-state="info"]>.texts .title {
+    color: blue;
+}
+
+.toast[data-state="error"]>.texts .title {
+    color: red;
 }
