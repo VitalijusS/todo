@@ -1,5 +1,6 @@
 const formDOM = document.forms[0];
-const textInputDOM = document.querySelector('input');
+const textInputDOM = document.querySelector('input[type="text"]');
+const colorInputDOM = document.querySelector('input[type="color"]');
 const submitButtonDOM = document.querySelector('button');
 const listDOM = document.querySelector('.list');
 const toastDOM = document.querySelector('.toast');
@@ -28,6 +29,8 @@ submitButtonDOM.addEventListener('click', event => {
         todoData.push({
             text: textInputDOM.value.trim(),
             createdOn: Date.now(),
+            state: 'todo',
+            color: colorInputDOM.value,
         });
         localStorage.setItem('tasks', JSON.stringify(todoData));
         renderList();
@@ -52,19 +55,21 @@ function renderTaskList() {
     let HTML = '';
     for (const todo of todoData) {
         HTML += `
-        <article class="item">
+        <article class="item" data-state="${todo.state}" style="border-left-color:${todo.color}">
                 <div class="text">${todo.text}</div>
                 <div class="date">${formatTime(todo.createdOn)}</div>
+                <div class="done">Done</div>
                 <form class="hidden">
-                    <input type="text">
+                    <input type="text" value="${todo.text}">
                     <button type="submit">Update</button>
                     <button type="button">Cancel</button>
                 </form>
                 <div class="action">
                     <button>Done</button>
                     <div class="diviter">|</div>
-                    <button>Edit</button>
-                    <button>Delete</button>
+                    
+                    ${todo.state === 'done' ? '' : `<button>Edit</button>`}
+                    <button class="delete">Delete</button>
                 </div>
             </article>
         `
@@ -75,41 +80,66 @@ function renderTaskList() {
     for (let i = 0; i < articlesDOM.length; i++) {
         const articleDOM = articlesDOM[i];
         const articleEditFormDOM = articleDOM.querySelector('form')
-        const buttonsDOM = articleDOM.querySelectorAll('button');
         const updateInputDOM = articleDOM.querySelector('input');
-        buttonsDOM[4].addEventListener('click', () => {
-            todoData.splice(i, 1);
-            renderList();
-            showToastSuccess('Task is deleted')
-        })
-        buttonsDOM[3].addEventListener('click', () => {
-            articleEditFormDOM.classList.remove('hidden')
-        })
-        buttonsDOM[1].addEventListener('click', () => {
-            articleEditFormDOM.classList.add('hidden')
-            updateInputDOM.value = '';
-            showToastInfo('Task was not changed')
-        })
-        buttonsDOM[0].addEventListener('click', event => {
-            event.preventDefault();
-            const validationText = isValidText(updateInputDOM.value);
-            if (validationText !== true) {
-                showToastError(validationText)
-                return;
-            }
-            todoData[i].text = updateInputDOM.value;
-            renderTaskList();
-            showToastSuccess('Task was changed')
 
-        })
+        const deleteDOM = articlesDOM[i].querySelector('.delete')
+        if (deleteDOM !== null) {
+
+            deleteDOM.addEventListener('click', () => {
+                todoData.splice(i, 1);
+                renderList();
+                localStorage.setItem('tasks', JSON.stringify(todoData));
+                showToastSuccess('Task is deleted')
+            })
+        }
+
+        const editDOM = articlesDOM[i].querySelectorAll('button')[3]
+        if (editDOM !== null) {
+            editDOM.addEventListener('click', () => {
+                articleEditFormDOM.classList.remove('hidden')
+            })
+
+        }
+
+        const canceleDOM = articlesDOM[i].querySelectorAll('button')[1]
+        if (canceleDOM !== null) {
+            canceleDOM.addEventListener('click', () => {
+                articleEditFormDOM.classList.add('hidden')
+                updateInputDOM.value = '';
+                showToastInfo('Task was not changed')
+            })
+        }
+
+
+        const changeDOM = articlesDOM[i].querySelectorAll('button')[0];
+        if (changeDOM !== null) {
+            changeDOM.addEventListener('click', event => {
+                event.preventDefault();
+                const validationText = isValidText(updateInputDOM.value);
+                if (validationText !== true) {
+                    showToastError(validationText)
+                    return;
+                }
+                todoData[i].text = updateInputDOM.value;
+                renderTaskList();
+                showToastSuccess('Task was changed')
+
+            })
+        }
+
+        const doneDOM = articlesDOM[i].querySelectorAll('button')[2];
+        if (doneDOM !== null) {
+
+            doneDOM.addEventListener('click', () => {
+                todoData[i].state = 'done';
+                articlesDOM[i].classList.add('completed');
+                localStorage.setItem('tasks', JSON.stringify(todoData));
+                showToastInfo('Task is completed')
+                renderTaskList();
+            })
+        }
     }
-    for (let i = 0; i < articlesDOM.length; i++) {
-        const deleteDOM = articlesDOM[i].querySelectorAll('button')[2];
-        deleteDOM.addEventListener('click', () => {
-            articlesDOM[i].style.background = 'green';
-            showToastInfo('Task is completed')
-        })
-    }
+
 }
 function formatTime(ms) {
     const d = new Date(ms);
@@ -146,3 +176,55 @@ function showToastInfo(text) {
 function showToastError(text) {
     showToast('error', 'Error', text)
 }
+
+const sortingListDOM = document.querySelector('.list-actions');
+const sortingButtonsDOM = sortingListDOM.querySelectorAll('button');
+
+const btnTime09DOM = sortingButtonsDOM[0];
+btnTime09DOM.addEventListener('click', () => {
+    sortingListDOM.querySelector('.active').classList.remove('active');
+    btnTime09DOM.classList.add('active');
+    todoData.sort((a, b) => a.createdOn - b.createdOn);
+    renderTaskList();
+});
+
+const btnTime90DOM = sortingButtonsDOM[1];
+btnTime90DOM.addEventListener('click', () => {
+    sortingListDOM.querySelector('.active').classList.remove('active');
+    btnTime90DOM.classList.add('active');
+    todoData.sort((a, b) => b.createdOn - a.createdOn);
+    renderTaskList();
+});
+
+const btnColorAZDOM = sortingButtonsDOM[2];
+btnColorAZDOM.addEventListener('click', () => {
+    sortingListDOM.querySelector('.active').classList.remove('active');
+    btnColorAZDOM.classList.add('active');
+    todoData.sort((a, b) => a.color < b.color ? -1 : a.color === b.color ? 0 : 1);
+    renderTaskList();
+});
+
+const btnColorZADOM = sortingButtonsDOM[3];
+btnColorZADOM.addEventListener('click', () => {
+    sortingListDOM.querySelector('.active').classList.remove('active');
+    btnColorZADOM.classList.add('active');
+    todoData.sort((a, b) => a.color < b.color ? 1 : a.color === b.color ? 0 : -1);
+    renderTaskList();
+});
+
+const btnNameAZDOM = sortingButtonsDOM[4];
+btnNameAZDOM.addEventListener('click', () => {
+    sortingListDOM.querySelector('.active').classList.remove('active');
+    btnNameAZDOM.classList.add('active');
+    todoData.sort((a, b) => a.text < b.text ? -1 : a.text === b.text ? 0 : 1);
+    renderTaskList();
+});
+
+const btnNameZADOM = sortingButtonsDOM[5];
+btnNameZADOM.addEventListener('click', () => {
+    sortingListDOM.querySelector('.active').classList.remove('active');
+    btnNameZADOM.classList.add('active');
+    todoData.sort((a, b) => a.text < b.text ? 1 : a.text === b.text ? 0 : -1);
+    renderTaskList();
+});
+
